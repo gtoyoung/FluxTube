@@ -6,6 +6,7 @@ import 'package:fluxtube/presentation/watch/explode_screen_watch.dart';
 import 'package:fluxtube/presentation/watch/invidious_screen_watch.dart';
 import 'package:fluxtube/presentation/watch/newpipe_screen_watch.dart';
 import 'package:fluxtube/presentation/watch/piped_screen_watch.dart';
+import 'package:fluxtube/presentation/watch/youtube_like/youtube_watch_screen.dart';
 
 class ScreenWatch extends StatelessWidget {
   const ScreenWatch({
@@ -23,14 +24,13 @@ class ScreenWatch extends StatelessWidget {
         builder: (context, settingsState) {
       final ytService = settingsState.ytService;
 
-      // All services now use MediaKit player exclusively
-      if (ytService == YouTubeServices.newpipe.name) {
-        return NewPipeScreenWatch(
+      if (ytService == YouTubeServices.piped.name) {
+        return YouTubeWatchScreen(
           id: id,
           channelId: channelId,
         );
-      } else if (ytService == YouTubeServices.piped.name) {
-        return PipedScreenWatch(
+      } else if (ytService == YouTubeServices.newpipe.name) {
+        return NewPipeScreenWatch(
           id: id,
           channelId: channelId,
         );
@@ -40,7 +40,6 @@ class ScreenWatch extends StatelessWidget {
           channelId: channelId,
         );
       } else {
-        // Invidious (default)
         return InvidiousScreenWatch(
           id: id,
           channelId: channelId,
