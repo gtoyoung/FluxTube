@@ -128,14 +128,7 @@ class _YouTubeControlsOverlayState extends State<YouTubeControlsOverlay> {
               onPressed: widget.onToggleFullscreen,
             ),
             const SizedBox(width: 8),
-            Expanded(
-              child: Text(
-                widget.player.state.title ?? '',
-                style: const TextStyle(color: Colors.white, fontSize: 14),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
+            Expanded(child: const SizedBox()),
           ],
         ),
       ),

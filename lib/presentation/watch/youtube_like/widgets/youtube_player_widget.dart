@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
 import 'package:fluxtube/application/application.dart';
-import 'package:fluxtube/application/watch/watch_state.dart';
 import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/core/platform/fullscreen_utils.dart';
@@ -14,6 +13,8 @@ import 'package:fluxtube/domain/watch/playback/models/generic_audio_track.dart';
 import 'youtube_controls_overlay.dart';
 import 'youtube_quality_sheet.dart';
 
+/// Unified video player widget that works with Piped backend.
+/// Adapts to portrait (16:9 container) and landscape (fullscreen) modes.
 class YouTubePlayerWidget extends StatefulWidget {
   const YouTubePlayerWidget({
     super.key,
@@ -54,11 +55,6 @@ class _YouTubePlayerWidgetState extends State<YouTubePlayerWidget>
   late AnimationController _fadeAnimController;
   late Animation<double> _fadeAnim;
 
-  // Gesture state
-  double _brightness = 1.0;
-  double _volume = 1.0;
-  bool _isSeeking = false;
-
   @override
   void initState() {
     super.initState();
@@ -94,29 +90,21 @@ class _YouTubePlayerWidgetState extends State<YouTubePlayerWidget>
 
   Future<void> _initializePlayback() async {
     try {
-      // Stop previous video if different
       if (_globalPlayer.currentVideoId != null &&
           _globalPlayer.currentVideoId != widget.videoId) {
         await _globalPlayer.stopAndClear();
       }
 
       await _globalPlayer.ensureInitialized();
-
-      // Build quality list based on whatever backend data is available
       _buildQualityOptions();
 
       // Set default quality
-      _currentQualityLabel = widget.watchState.watchResp.videoStreams
-              ?.where((v) => v.videoOnly == false && v.quality != null)
-              .map((v) => v.quality!)
-              .toList()
-              ?.isNotEmpty == true
-          ? widget.watchState.watchResp.videoStreams!
-              .firstWhere((v) => v.videoOnly == false)
-              .quality
-          : null;
+      final streams = widget.watchState.watchResp.videoStreams;
+      if (streams != null) {
+        final firstMuxed = streams.where((v) => v.videoOnly == false).firstOrNull;
+        _currentQualityLabel = firstMuxed?.quality;
+      }
 
-      // Build audio tracks
       _availableAudioTracks = PipedStreamHelper.getAvailableAudioTracks(
           widget.watchState.watchResp.audioStreams);
       if (_availableAudioTracks!.isNotEmpty) {
@@ -160,31 +148,38 @@ class _YouTubePlayerWidgetState extends State<YouTubePlayerWidget>
   Future<void> _setupMediaSource(String? quality) async {
     final watchInfo = widget.watchState.watchResp;
 
-    // Find matching video stream by quality
     String? videoUrl;
 
-    if (quality != null) {
-      final match = watchInfo.videoStreams?.firstWhere(
-        (v) => v.quality == quality && v.videoOnly == false,
-        orElse: () => watchInfo.videoStreams
-                ?.where((v) => v.videoOnly == false)
-                .firstOrNull ??
-            watchInfo.videoStreams?.firstOrNull,
-      );
-      videoUrl = match?.url;
+    // Try selected quality
+    if (quality != null && watchInfo.videoStreams != null) {
+      for (final v in watchInfo.videoStreams!) {
+        if (v.quality == quality && v.videoOnly == false && v.url != null) {
+          videoUrl = v.url;
+          break;
+        }
+      }
     }
 
-    // Fallback: first available non-video-only stream
-    if (videoUrl == null) {
-      final fallback = watchInfo.videoStreams
-          ?.where((v) => v.videoOnly == false)
-          .firstOrNull;
-      videoUrl = fallback?.url;
+    // Fallback: first non-video-only stream
+    if (videoUrl == null && watchInfo.videoStreams != null) {
+      for (final v in watchInfo.videoStreams!) {
+        if (v.videoOnly == false && v.url != null) {
+          videoUrl = v.url;
+          break;
+        }
+      }
     }
 
-    // Final fallback: HLS or any stream
+    // Final fallback
     videoUrl ??= watchInfo.hls;
-    videoUrl ??= watchInfo.videoStreams?.firstOrNull?.url;
+    if (videoUrl == null && watchInfo.videoStreams != null) {
+      for (final v in watchInfo.videoStreams!) {
+        if (v.url != null) {
+          videoUrl = v.url;
+          break;
+        }
+      }
+    }
     videoUrl ??= watchInfo.audioStreams?.firstOrNull?.url;
 
     if (videoUrl == null) return;
@@ -267,7 +262,7 @@ class _YouTubePlayerWidgetState extends State<YouTubePlayerWidget>
                 : BorderRadius.circular(0),
             child: Video(
               controller: _videoController,
-              fill: widget.isFullscreen ? BoxFit.contain : BoxFit.contain,
+              fit: BoxFit.contain,
             ),
           ),
 
@@ -305,7 +300,7 @@ class _YouTubePlayerWidgetState extends State<YouTubePlayerWidget>
   void _showQualitySheet() {
     showModalBottomSheet(
       context: context,
-      backgroundColor: kGreyDarkColor,
+      backgroundColor: Colors.grey.shade800,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
