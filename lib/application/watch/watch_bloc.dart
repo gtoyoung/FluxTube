@@ -43,14 +43,31 @@ class WatchBloc extends Bloc<WatchEvent, WatchState> {
         //get stream info data
         final result = await watchService.getVideoData(id: event.id);
 
-        final _state = result.fold(
-            (MainFailure failure) => state.copyWith(
-                  fetchWatchInfoStatus: ApiStatus.error,
-                ),
-            (WatchResp resp) => state.copyWith(
-                watchResp: resp,
-                fetchWatchInfoStatus: ApiStatus.loaded,
-                oldId: event.id));
+      String? sanitize(MainFailure f) => f.maybeWhen(
+        serverError: (_, msg) {
+          final line = (msg ?? '').split('\n').first;
+          if (line.contains('SignInConfirmNotBotException')) {
+            return 'YouTube requires sign-in (bot detection)';
+          }
+          return line.length > 200 ? '${line.substring(0, 200)}...' : line;
+        },
+        notFound: (r) => 'Video not found${r != null ? ': $r' : ''}',
+        unknown: (msg) => msg,
+        orElse: () => null,
+      );
+
+      final _state = result.fold(
+        (MainFailure failure) => state.copyWith(
+          fetchWatchInfoStatus: ApiStatus.error,
+          pipedErrorMessage: sanitize(failure),
+        ),
+        (WatchResp resp) => state.copyWith(
+          watchResp: resp,
+          fetchWatchInfoStatus: ApiStatus.loaded,
+          pipedErrorMessage: null,
+          oldId: event.id,
+        ),
+      );
         //update to ui
         emit(_state);
       },

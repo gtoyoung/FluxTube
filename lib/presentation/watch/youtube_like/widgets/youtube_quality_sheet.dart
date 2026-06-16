@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/domain/watch/playback/models/generic_quality_info.dart';
 
 /// YouTube-style quality selection bottom sheet.

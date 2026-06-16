@@ -334,15 +334,23 @@ class __$$GetWatchInfoImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$GetWatchInfoImpl implements GetWatchInfo {
+class _$GetWatchInfoImpl with DiagnosticableTreeMixin implements GetWatchInfo {
   _$GetWatchInfoImpl({required this.id});
 
   @override
   final String id;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WatchEvent.getWatchInfo(id: $id)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'WatchEvent.getWatchInfo'))
+      ..add(DiagnosticsProperty('id', id));
   }
 
   @override
@@ -696,15 +704,25 @@ class __$$GetCommentDataImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$GetCommentDataImpl implements GetCommentData {
+class _$GetCommentDataImpl
+    with DiagnosticableTreeMixin
+    implements GetCommentData {
   _$GetCommentDataImpl({required this.id});
 
   @override
   final String id;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WatchEvent.getCommentData(id: $id)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'WatchEvent.getCommentData'))
+      ..add(DiagnosticsProperty('id', id));
   }
 
   @override
@@ -1060,15 +1078,25 @@ class __$$ForceFetchCommentDataImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ForceFetchCommentDataImpl implements ForceFetchCommentData {
+class _$ForceFetchCommentDataImpl
+    with DiagnosticableTreeMixin
+    implements ForceFetchCommentData {
   _$ForceFetchCommentDataImpl({required this.id});
 
   @override
   final String id;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WatchEvent.forceFetchCommentData(id: $id)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'WatchEvent.forceFetchCommentData'))
+      ..add(DiagnosticsProperty('id', id));
   }
 
   @override
@@ -1430,7 +1458,9 @@ class __$$GetCommentRepliesDataImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$GetCommentRepliesDataImpl implements GetCommentRepliesData {
+class _$GetCommentRepliesDataImpl
+    with DiagnosticableTreeMixin
+    implements GetCommentRepliesData {
   _$GetCommentRepliesDataImpl({required this.id, required this.nextPage});
 
   @override
@@ -1439,8 +1469,17 @@ class _$GetCommentRepliesDataImpl implements GetCommentRepliesData {
   final String nextPage;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WatchEvent.getCommentRepliesData(id: $id, nextPage: $nextPage)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'WatchEvent.getCommentRepliesData'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('nextPage', nextPage));
   }
 
   @override
@@ -1805,7 +1844,9 @@ class __$$GetMoreCommentsDataImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$GetMoreCommentsDataImpl implements GetMoreCommentsData {
+class _$GetMoreCommentsDataImpl
+    with DiagnosticableTreeMixin
+    implements GetMoreCommentsData {
   _$GetMoreCommentsDataImpl({required this.id, required this.nextPage});
 
   @override
@@ -1814,8 +1855,17 @@ class _$GetMoreCommentsDataImpl implements GetMoreCommentsData {
   final String? nextPage;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WatchEvent.getMoreCommentsData(id: $id, nextPage: $nextPage)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'WatchEvent.getMoreCommentsData'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('nextPage', nextPage));
   }
 
   @override
@@ -2182,7 +2232,9 @@ class __$$GetMoreReplyCommentsDataImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$GetMoreReplyCommentsDataImpl implements GetMoreReplyCommentsData {
+class _$GetMoreReplyCommentsDataImpl
+    with DiagnosticableTreeMixin
+    implements GetMoreReplyCommentsData {
   _$GetMoreReplyCommentsDataImpl({required this.id, required this.nextPage});
 
   @override
@@ -2191,8 +2243,17 @@ class _$GetMoreReplyCommentsDataImpl implements GetMoreReplyCommentsData {
   final String? nextPage;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WatchEvent.getMoreReplyCommentsData(id: $id, nextPage: $nextPage)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'WatchEvent.getMoreReplyCommentsData'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('nextPage', nextPage));
   }
 
   @override
@@ -2552,15 +2613,23 @@ class __$$GetSubtitlesImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$GetSubtitlesImpl implements GetSubtitles {
+class _$GetSubtitlesImpl with DiagnosticableTreeMixin implements GetSubtitles {
   _$GetSubtitlesImpl({required this.id});
 
   @override
   final String id;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WatchEvent.getSubtitles(id: $id)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'WatchEvent.getSubtitles'))
+      ..add(DiagnosticsProperty('id', id));
   }
 
   @override
@@ -2900,12 +2969,20 @@ class __$$TapDescriptionImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$TapDescriptionImpl implements TapDescription {
+class _$TapDescriptionImpl
+    with DiagnosticableTreeMixin
+    implements TapDescription {
   _$TapDescriptionImpl();
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WatchEvent.tapDescription()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties..add(DiagnosticsProperty('type', 'WatchEvent.tapDescription'));
   }
 
   @override
@@ -3241,15 +3318,23 @@ class __$$TogglePipImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$TogglePipImpl implements TogglePip {
+class _$TogglePipImpl with DiagnosticableTreeMixin implements TogglePip {
   _$TogglePipImpl({required this.value});
 
   @override
   final bool value;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WatchEvent.togglePip(value: $value)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'WatchEvent.togglePip'))
+      ..add(DiagnosticsProperty('value', value));
   }
 
   @override
@@ -3603,15 +3688,23 @@ class __$$AssignTitleImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$AssignTitleImpl implements AssignTitle {
+class _$AssignTitleImpl with DiagnosticableTreeMixin implements AssignTitle {
   _$AssignTitleImpl({required this.title});
 
   @override
   final String title;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WatchEvent.assignTitle(title: $title)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'WatchEvent.assignTitle'))
+      ..add(DiagnosticsProperty('title', title));
   }
 
   @override
@@ -3965,15 +4058,25 @@ class __$$GetExplodeWatchInfoImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$GetExplodeWatchInfoImpl implements GetExplodeWatchInfo {
+class _$GetExplodeWatchInfoImpl
+    with DiagnosticableTreeMixin
+    implements GetExplodeWatchInfo {
   _$GetExplodeWatchInfoImpl({required this.id});
 
   @override
   final String id;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WatchEvent.getExplodeWatchInfo(id: $id)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'WatchEvent.getExplodeWatchInfo'))
+      ..add(DiagnosticsProperty('id', id));
   }
 
   @override
@@ -4331,15 +4434,26 @@ class __$$GetExplodeRelatedVideoInfoImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$GetExplodeRelatedVideoInfoImpl implements GetExplodeRelatedVideoInfo {
+class _$GetExplodeRelatedVideoInfoImpl
+    with DiagnosticableTreeMixin
+    implements GetExplodeRelatedVideoInfo {
   _$GetExplodeRelatedVideoInfoImpl({required this.id});
 
   @override
   final String id;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WatchEvent.getExplodeRelatedVideoInfo(id: $id)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(
+          DiagnosticsProperty('type', 'WatchEvent.getExplodeRelatedVideoInfo'))
+      ..add(DiagnosticsProperty('id', id));
   }
 
   @override
@@ -4697,15 +4811,25 @@ class __$$GetExplodeMuxStreamInfoImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$GetExplodeMuxStreamInfoImpl implements GetExplodeMuxStreamInfo {
+class _$GetExplodeMuxStreamInfoImpl
+    with DiagnosticableTreeMixin
+    implements GetExplodeMuxStreamInfo {
   _$GetExplodeMuxStreamInfoImpl({required this.id});
 
   @override
   final String id;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WatchEvent.getExplodeMuxStreamInfo(id: $id)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'WatchEvent.getExplodeMuxStreamInfo'))
+      ..add(DiagnosticsProperty('id', id));
   }
 
   @override
@@ -5063,15 +5187,25 @@ class __$$GetExplodeLiveVideoInfoImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$GetExplodeLiveVideoInfoImpl implements GetExplodeLiveVideoInfo {
+class _$GetExplodeLiveVideoInfoImpl
+    with DiagnosticableTreeMixin
+    implements GetExplodeLiveVideoInfo {
   _$GetExplodeLiveVideoInfoImpl({required this.id});
 
   @override
   final String id;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WatchEvent.getExplodeLiveVideoInfo(id: $id)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'WatchEvent.getExplodeLiveVideoInfo'))
+      ..add(DiagnosticsProperty('id', id));
   }
 
   @override
@@ -5430,6 +5564,7 @@ class __$$SetSelectedVideoBasicDetailsImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SetSelectedVideoBasicDetailsImpl
+    with DiagnosticableTreeMixin
     implements SetSelectedVideoBasicDetails {
   _$SetSelectedVideoBasicDetailsImpl({required this.details});
 
@@ -5437,8 +5572,17 @@ class _$SetSelectedVideoBasicDetailsImpl
   final VideoBasicInfo details;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WatchEvent.setSelectedVideoBasicDetails(details: $details)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty(
+          'type', 'WatchEvent.setSelectedVideoBasicDetails'))
+      ..add(DiagnosticsProperty('details', details));
   }
 
   @override
@@ -5798,15 +5942,25 @@ class __$$GetInvidiousWatchInfoImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$GetInvidiousWatchInfoImpl implements GetInvidiousWatchInfo {
+class _$GetInvidiousWatchInfoImpl
+    with DiagnosticableTreeMixin
+    implements GetInvidiousWatchInfo {
   _$GetInvidiousWatchInfoImpl({required this.id});
 
   @override
   final String id;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WatchEvent.getInvidiousWatchInfo(id: $id)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'WatchEvent.getInvidiousWatchInfo'))
+      ..add(DiagnosticsProperty('id', id));
   }
 
   @override
@@ -6162,15 +6316,25 @@ class __$$GetInvidiousCommentsImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$GetInvidiousCommentsImpl implements GetInvidiousComments {
+class _$GetInvidiousCommentsImpl
+    with DiagnosticableTreeMixin
+    implements GetInvidiousComments {
   _$GetInvidiousCommentsImpl({required this.id});
 
   @override
   final String id;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WatchEvent.getInvidiousComments(id: $id)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'WatchEvent.getInvidiousComments'))
+      ..add(DiagnosticsProperty('id', id));
   }
 
   @override
@@ -6529,15 +6693,26 @@ class __$$ForceFetchInvidiousCommentsImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ForceFetchInvidiousCommentsImpl implements ForceFetchInvidiousComments {
+class _$ForceFetchInvidiousCommentsImpl
+    with DiagnosticableTreeMixin
+    implements ForceFetchInvidiousComments {
   _$ForceFetchInvidiousCommentsImpl({required this.id});
 
   @override
   final String id;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WatchEvent.forceFetchInvidiousComments(id: $id)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(
+          DiagnosticsProperty('type', 'WatchEvent.forceFetchInvidiousComments'))
+      ..add(DiagnosticsProperty('id', id));
   }
 
   @override
@@ -6900,7 +7075,9 @@ class __$$GetInvidiousCommentRepliesImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$GetInvidiousCommentRepliesImpl implements GetInvidiousCommentReplies {
+class _$GetInvidiousCommentRepliesImpl
+    with DiagnosticableTreeMixin
+    implements GetInvidiousCommentReplies {
   _$GetInvidiousCommentRepliesImpl(
       {required this.id, required this.continuation});
 
@@ -6910,8 +7087,18 @@ class _$GetInvidiousCommentRepliesImpl implements GetInvidiousCommentReplies {
   final String continuation;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WatchEvent.getInvidiousCommentReplies(id: $id, continuation: $continuation)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(
+          DiagnosticsProperty('type', 'WatchEvent.getInvidiousCommentReplies'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('continuation', continuation));
   }
 
   @override
@@ -7278,7 +7465,9 @@ class __$$GetMoreInvidiousCommentsImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$GetMoreInvidiousCommentsImpl implements GetMoreInvidiousComments {
+class _$GetMoreInvidiousCommentsImpl
+    with DiagnosticableTreeMixin
+    implements GetMoreInvidiousComments {
   _$GetMoreInvidiousCommentsImpl(
       {required this.id, required this.continuation});
 
@@ -7288,8 +7477,17 @@ class _$GetMoreInvidiousCommentsImpl implements GetMoreInvidiousComments {
   final String? continuation;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WatchEvent.getMoreInvidiousComments(id: $id, continuation: $continuation)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'WatchEvent.getMoreInvidiousComments'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('continuation', continuation));
   }
 
   @override
@@ -7657,6 +7855,7 @@ class __$$GetMoreInvidiousReplyCommentsImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$GetMoreInvidiousReplyCommentsImpl
+    with DiagnosticableTreeMixin
     implements GetMoreInvidiousReplyComments {
   _$GetMoreInvidiousReplyCommentsImpl(
       {required this.id, required this.continuation});
@@ -7667,8 +7866,18 @@ class _$GetMoreInvidiousReplyCommentsImpl
   final String? continuation;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WatchEvent.getMoreInvidiousReplyComments(id: $id, continuation: $continuation)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty(
+          'type', 'WatchEvent.getMoreInvidiousReplyComments'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('continuation', continuation));
   }
 
   @override
@@ -8030,15 +8239,25 @@ class __$$UpdatePlayBackImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$UpdatePlayBackImpl implements UpdatePlayBack {
+class _$UpdatePlayBackImpl
+    with DiagnosticableTreeMixin
+    implements UpdatePlayBack {
   _$UpdatePlayBackImpl({required this.playBack});
 
   @override
   final int? playBack;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WatchEvent.updatePlayBack(playBack: $playBack)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'WatchEvent.updatePlayBack'))
+      ..add(DiagnosticsProperty('playBack', playBack));
   }
 
   @override
@@ -8394,15 +8613,25 @@ class __$$GetNewPipeWatchInfoImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$GetNewPipeWatchInfoImpl implements GetNewPipeWatchInfo {
+class _$GetNewPipeWatchInfoImpl
+    with DiagnosticableTreeMixin
+    implements GetNewPipeWatchInfo {
   _$GetNewPipeWatchInfoImpl({required this.id});
 
   @override
   final String id;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WatchEvent.getNewPipeWatchInfo(id: $id)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'WatchEvent.getNewPipeWatchInfo'))
+      ..add(DiagnosticsProperty('id', id));
   }
 
   @override
@@ -8765,7 +8994,9 @@ class __$$GetNewPipeWatchInfoFastImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$GetNewPipeWatchInfoFastImpl implements GetNewPipeWatchInfoFast {
+class _$GetNewPipeWatchInfoFastImpl
+    with DiagnosticableTreeMixin
+    implements GetNewPipeWatchInfoFast {
   _$GetNewPipeWatchInfoFastImpl(
       {required this.id, required final List<String> sponsorBlockCategories})
       : _sponsorBlockCategories = sponsorBlockCategories;
@@ -8782,8 +9013,18 @@ class _$GetNewPipeWatchInfoFastImpl implements GetNewPipeWatchInfoFast {
   }
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WatchEvent.getNewPipeWatchInfoFast(id: $id, sponsorBlockCategories: $sponsorBlockCategories)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'WatchEvent.getNewPipeWatchInfoFast'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty(
+          'sponsorBlockCategories', sponsorBlockCategories));
   }
 
   @override
@@ -9145,15 +9386,25 @@ class __$$GetNewPipeCommentsImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$GetNewPipeCommentsImpl implements GetNewPipeComments {
+class _$GetNewPipeCommentsImpl
+    with DiagnosticableTreeMixin
+    implements GetNewPipeComments {
   _$GetNewPipeCommentsImpl({required this.id});
 
   @override
   final String id;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WatchEvent.getNewPipeComments(id: $id)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'WatchEvent.getNewPipeComments'))
+      ..add(DiagnosticsProperty('id', id));
   }
 
   @override
@@ -9511,15 +9762,25 @@ class __$$ForceFetchNewPipeCommentsImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ForceFetchNewPipeCommentsImpl implements ForceFetchNewPipeComments {
+class _$ForceFetchNewPipeCommentsImpl
+    with DiagnosticableTreeMixin
+    implements ForceFetchNewPipeComments {
   _$ForceFetchNewPipeCommentsImpl({required this.id});
 
   @override
   final String id;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WatchEvent.forceFetchNewPipeComments(id: $id)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'WatchEvent.forceFetchNewPipeComments'))
+      ..add(DiagnosticsProperty('id', id));
   }
 
   @override
@@ -9882,7 +10143,9 @@ class __$$GetMoreNewPipeCommentsImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$GetMoreNewPipeCommentsImpl implements GetMoreNewPipeComments {
+class _$GetMoreNewPipeCommentsImpl
+    with DiagnosticableTreeMixin
+    implements GetMoreNewPipeComments {
   _$GetMoreNewPipeCommentsImpl({required this.id, required this.nextPage});
 
   @override
@@ -9891,8 +10154,17 @@ class _$GetMoreNewPipeCommentsImpl implements GetMoreNewPipeComments {
   final String? nextPage;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WatchEvent.getMoreNewPipeComments(id: $id, nextPage: $nextPage)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'WatchEvent.getMoreNewPipeComments'))
+      ..add(DiagnosticsProperty('id', id))
+      ..add(DiagnosticsProperty('nextPage', nextPage));
   }
 
   @override
@@ -10259,7 +10531,9 @@ class __$$GetNewPipeCommentRepliesImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$GetNewPipeCommentRepliesImpl implements GetNewPipeCommentReplies {
+class _$GetNewPipeCommentRepliesImpl
+    with DiagnosticableTreeMixin
+    implements GetNewPipeCommentReplies {
   _$GetNewPipeCommentRepliesImpl(
       {required this.videoId, required this.repliesPage});
 
@@ -10269,8 +10543,17 @@ class _$GetNewPipeCommentRepliesImpl implements GetNewPipeCommentReplies {
   final String repliesPage;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WatchEvent.getNewPipeCommentReplies(videoId: $videoId, repliesPage: $repliesPage)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'WatchEvent.getNewPipeCommentReplies'))
+      ..add(DiagnosticsProperty('videoId', videoId))
+      ..add(DiagnosticsProperty('repliesPage', repliesPage));
   }
 
   @override
@@ -10638,6 +10921,7 @@ class __$$GetMoreNewPipeCommentRepliesImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$GetMoreNewPipeCommentRepliesImpl
+    with DiagnosticableTreeMixin
     implements GetMoreNewPipeCommentReplies {
   _$GetMoreNewPipeCommentRepliesImpl(
       {required this.videoId, required this.nextPage});
@@ -10648,8 +10932,18 @@ class _$GetMoreNewPipeCommentRepliesImpl
   final String? nextPage;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WatchEvent.getMoreNewPipeCommentReplies(videoId: $videoId, nextPage: $nextPage)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty(
+          'type', 'WatchEvent.getMoreNewPipeCommentReplies'))
+      ..add(DiagnosticsProperty('videoId', videoId))
+      ..add(DiagnosticsProperty('nextPage', nextPage));
   }
 
   @override
@@ -11016,7 +11310,9 @@ class __$$GetSponsorSegmentsImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$GetSponsorSegmentsImpl implements GetSponsorSegments {
+class _$GetSponsorSegmentsImpl
+    with DiagnosticableTreeMixin
+    implements GetSponsorSegments {
   _$GetSponsorSegmentsImpl(
       {required this.videoId, required final List<String> categories})
       : _categories = categories;
@@ -11032,8 +11328,17 @@ class _$GetSponsorSegmentsImpl implements GetSponsorSegments {
   }
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'WatchEvent.getSponsorSegments(videoId: $videoId, categories: $categories)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'WatchEvent.getSponsorSegments'))
+      ..add(DiagnosticsProperty('videoId', videoId))
+      ..add(DiagnosticsProperty('categories', categories));
   }
 
   @override
@@ -11373,6 +11678,7 @@ mixin _$WatchState {
   WatchResp get watchResp => throw _privateConstructorUsedError;
   CommentsResp get comments => throw _privateConstructorUsedError;
   CommentsResp get commentReplies => throw _privateConstructorUsedError;
+  String? get pipedErrorMessage => throw _privateConstructorUsedError;
   ApiStatus get fetchWatchInfoStatus => throw _privateConstructorUsedError;
   ApiStatus get fetchCommentsStatus => throw _privateConstructorUsedError;
   ApiStatus get fetchCommentRepliesStatus => throw _privateConstructorUsedError;
@@ -11465,6 +11771,7 @@ abstract class $WatchStateCopyWith<$Res> {
       WatchResp watchResp,
       CommentsResp comments,
       CommentsResp commentReplies,
+      String? pipedErrorMessage,
       ApiStatus fetchWatchInfoStatus,
       ApiStatus fetchCommentsStatus,
       ApiStatus fetchCommentRepliesStatus,
@@ -11532,6 +11839,7 @@ class _$WatchStateCopyWithImpl<$Res, $Val extends WatchState>
     Object? watchResp = null,
     Object? comments = null,
     Object? commentReplies = null,
+    Object? pipedErrorMessage = freezed,
     Object? fetchWatchInfoStatus = null,
     Object? fetchCommentsStatus = null,
     Object? fetchCommentRepliesStatus = null,
@@ -11614,6 +11922,10 @@ class _$WatchStateCopyWithImpl<$Res, $Val extends WatchState>
           ? _value.commentReplies
           : commentReplies // ignore: cast_nullable_to_non_nullable
               as CommentsResp,
+      pipedErrorMessage: freezed == pipedErrorMessage
+          ? _value.pipedErrorMessage
+          : pipedErrorMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
       fetchWatchInfoStatus: null == fetchWatchInfoStatus
           ? _value.fetchWatchInfoStatus
           : fetchWatchInfoStatus // ignore: cast_nullable_to_non_nullable
@@ -11805,6 +12117,7 @@ abstract class _$$InitialImplCopyWith<$Res>
       WatchResp watchResp,
       CommentsResp comments,
       CommentsResp commentReplies,
+      String? pipedErrorMessage,
       ApiStatus fetchWatchInfoStatus,
       ApiStatus fetchCommentsStatus,
       ApiStatus fetchCommentRepliesStatus,
@@ -11870,6 +12183,7 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? watchResp = null,
     Object? comments = null,
     Object? commentReplies = null,
+    Object? pipedErrorMessage = freezed,
     Object? fetchWatchInfoStatus = null,
     Object? fetchCommentsStatus = null,
     Object? fetchCommentRepliesStatus = null,
@@ -11952,6 +12266,10 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.commentReplies
           : commentReplies // ignore: cast_nullable_to_non_nullable
               as CommentsResp,
+      pipedErrorMessage: freezed == pipedErrorMessage
+          ? _value.pipedErrorMessage
+          : pipedErrorMessage // ignore: cast_nullable_to_non_nullable
+              as String?,
       fetchWatchInfoStatus: null == fetchWatchInfoStatus
           ? _value.fetchWatchInfoStatus
           : fetchWatchInfoStatus // ignore: cast_nullable_to_non_nullable
@@ -12126,7 +12444,7 @@ class __$$InitialImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$InitialImpl implements _Initial {
+class _$InitialImpl with DiagnosticableTreeMixin implements _Initial {
   const _$InitialImpl(
       {this.oldId,
       required this.isTapComments,
@@ -12138,6 +12456,7 @@ class _$InitialImpl implements _Initial {
       required this.watchResp,
       required this.comments,
       required this.commentReplies,
+      this.pipedErrorMessage,
       required this.fetchWatchInfoStatus,
       required this.fetchCommentsStatus,
       required this.fetchCommentRepliesStatus,
@@ -12205,6 +12524,8 @@ class _$InitialImpl implements _Initial {
   final CommentsResp comments;
   @override
   final CommentsResp commentReplies;
+  @override
+  final String? pipedErrorMessage;
   @override
   final ApiStatus fetchWatchInfoStatus;
   @override
@@ -12320,8 +12641,92 @@ class _$InitialImpl implements _Initial {
   final ApiStatus fetchSponsorSegmentsStatus;
 
   @override
-  String toString() {
-    return 'WatchState(oldId: $oldId, isTapComments: $isTapComments, isDescriptionTapped: $isDescriptionTapped, isPipEnabled: $isPipEnabled, title: $title, playBack: $playBack, selectedVideoBasicDetails: $selectedVideoBasicDetails, watchResp: $watchResp, comments: $comments, commentReplies: $commentReplies, fetchWatchInfoStatus: $fetchWatchInfoStatus, fetchCommentsStatus: $fetchCommentsStatus, fetchCommentRepliesStatus: $fetchCommentRepliesStatus, fetchMoreCommentsStatus: $fetchMoreCommentsStatus, isMoreCommentsFetchCompleted: $isMoreCommentsFetchCompleted, fetchMoreCommentRepliesStatus: $fetchMoreCommentRepliesStatus, isMoreReplyCommentsFetchCompleted: $isMoreReplyCommentsFetchCompleted, explodeWatchResp: $explodeWatchResp, fetchExplodeWatchInfoStatus: $fetchExplodeWatchInfoStatus, fetchSubtitlesStatus: $fetchSubtitlesStatus, subtitles: $subtitles, liveStreamUrl: $liveStreamUrl, fetchExplodeLiveStreamStatus: $fetchExplodeLiveStreamStatus, relatedVideos: $relatedVideos, fetchExplodedRelatedVideosStatus: $fetchExplodedRelatedVideosStatus, muxedStreams: $muxedStreams, fetchExplodeMuxedStreamsStatus: $fetchExplodeMuxedStreamsStatus, invidiousWatchResp: $invidiousWatchResp, fetchInvidiousWatchInfoStatus: $fetchInvidiousWatchInfoStatus, invidiousComments: $invidiousComments, fetchInvidiousCommentsStatus: $fetchInvidiousCommentsStatus, invidiousCommentReplies: $invidiousCommentReplies, fetchInvidiousCommentRepliesStatus: $fetchInvidiousCommentRepliesStatus, fetchMoreInvidiousCommentsStatus: $fetchMoreInvidiousCommentsStatus, isMoreInvidiousCommentsFetchCompleted: $isMoreInvidiousCommentsFetchCompleted, fetchMoreInvidiousCommentRepliesStatus: $fetchMoreInvidiousCommentRepliesStatus, isMoreInvidiousReplyCommentsFetchCompleted: $isMoreInvidiousReplyCommentsFetchCompleted, newPipeWatchResp: $newPipeWatchResp, fetchNewPipeWatchInfoStatus: $fetchNewPipeWatchInfoStatus, newPipeErrorMessage: $newPipeErrorMessage, newPipeComments: $newPipeComments, fetchNewPipeCommentsStatus: $fetchNewPipeCommentsStatus, fetchMoreNewPipeCommentsStatus: $fetchMoreNewPipeCommentsStatus, isMoreNewPipeCommentsFetchCompleted: $isMoreNewPipeCommentsFetchCompleted, newPipeCommentReplies: $newPipeCommentReplies, fetchNewPipeCommentRepliesStatus: $fetchNewPipeCommentRepliesStatus, fetchMoreNewPipeCommentRepliesStatus: $fetchMoreNewPipeCommentRepliesStatus, isMoreNewPipeReplyCommentsFetchCompleted: $isMoreNewPipeReplyCommentsFetchCompleted, sponsorSegments: $sponsorSegments, fetchSponsorSegmentsStatus: $fetchSponsorSegmentsStatus)';
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'WatchState(oldId: $oldId, isTapComments: $isTapComments, isDescriptionTapped: $isDescriptionTapped, isPipEnabled: $isPipEnabled, title: $title, playBack: $playBack, selectedVideoBasicDetails: $selectedVideoBasicDetails, watchResp: $watchResp, comments: $comments, commentReplies: $commentReplies, pipedErrorMessage: $pipedErrorMessage, fetchWatchInfoStatus: $fetchWatchInfoStatus, fetchCommentsStatus: $fetchCommentsStatus, fetchCommentRepliesStatus: $fetchCommentRepliesStatus, fetchMoreCommentsStatus: $fetchMoreCommentsStatus, isMoreCommentsFetchCompleted: $isMoreCommentsFetchCompleted, fetchMoreCommentRepliesStatus: $fetchMoreCommentRepliesStatus, isMoreReplyCommentsFetchCompleted: $isMoreReplyCommentsFetchCompleted, explodeWatchResp: $explodeWatchResp, fetchExplodeWatchInfoStatus: $fetchExplodeWatchInfoStatus, fetchSubtitlesStatus: $fetchSubtitlesStatus, subtitles: $subtitles, liveStreamUrl: $liveStreamUrl, fetchExplodeLiveStreamStatus: $fetchExplodeLiveStreamStatus, relatedVideos: $relatedVideos, fetchExplodedRelatedVideosStatus: $fetchExplodedRelatedVideosStatus, muxedStreams: $muxedStreams, fetchExplodeMuxedStreamsStatus: $fetchExplodeMuxedStreamsStatus, invidiousWatchResp: $invidiousWatchResp, fetchInvidiousWatchInfoStatus: $fetchInvidiousWatchInfoStatus, invidiousComments: $invidiousComments, fetchInvidiousCommentsStatus: $fetchInvidiousCommentsStatus, invidiousCommentReplies: $invidiousCommentReplies, fetchInvidiousCommentRepliesStatus: $fetchInvidiousCommentRepliesStatus, fetchMoreInvidiousCommentsStatus: $fetchMoreInvidiousCommentsStatus, isMoreInvidiousCommentsFetchCompleted: $isMoreInvidiousCommentsFetchCompleted, fetchMoreInvidiousCommentRepliesStatus: $fetchMoreInvidiousCommentRepliesStatus, isMoreInvidiousReplyCommentsFetchCompleted: $isMoreInvidiousReplyCommentsFetchCompleted, newPipeWatchResp: $newPipeWatchResp, fetchNewPipeWatchInfoStatus: $fetchNewPipeWatchInfoStatus, newPipeErrorMessage: $newPipeErrorMessage, newPipeComments: $newPipeComments, fetchNewPipeCommentsStatus: $fetchNewPipeCommentsStatus, fetchMoreNewPipeCommentsStatus: $fetchMoreNewPipeCommentsStatus, isMoreNewPipeCommentsFetchCompleted: $isMoreNewPipeCommentsFetchCompleted, newPipeCommentReplies: $newPipeCommentReplies, fetchNewPipeCommentRepliesStatus: $fetchNewPipeCommentRepliesStatus, fetchMoreNewPipeCommentRepliesStatus: $fetchMoreNewPipeCommentRepliesStatus, isMoreNewPipeReplyCommentsFetchCompleted: $isMoreNewPipeReplyCommentsFetchCompleted, sponsorSegments: $sponsorSegments, fetchSponsorSegmentsStatus: $fetchSponsorSegmentsStatus)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'WatchState'))
+      ..add(DiagnosticsProperty('oldId', oldId))
+      ..add(DiagnosticsProperty('isTapComments', isTapComments))
+      ..add(DiagnosticsProperty('isDescriptionTapped', isDescriptionTapped))
+      ..add(DiagnosticsProperty('isPipEnabled', isPipEnabled))
+      ..add(DiagnosticsProperty('title', title))
+      ..add(DiagnosticsProperty('playBack', playBack))
+      ..add(DiagnosticsProperty(
+          'selectedVideoBasicDetails', selectedVideoBasicDetails))
+      ..add(DiagnosticsProperty('watchResp', watchResp))
+      ..add(DiagnosticsProperty('comments', comments))
+      ..add(DiagnosticsProperty('commentReplies', commentReplies))
+      ..add(DiagnosticsProperty('pipedErrorMessage', pipedErrorMessage))
+      ..add(DiagnosticsProperty('fetchWatchInfoStatus', fetchWatchInfoStatus))
+      ..add(DiagnosticsProperty('fetchCommentsStatus', fetchCommentsStatus))
+      ..add(DiagnosticsProperty(
+          'fetchCommentRepliesStatus', fetchCommentRepliesStatus))
+      ..add(DiagnosticsProperty(
+          'fetchMoreCommentsStatus', fetchMoreCommentsStatus))
+      ..add(DiagnosticsProperty(
+          'isMoreCommentsFetchCompleted', isMoreCommentsFetchCompleted))
+      ..add(DiagnosticsProperty(
+          'fetchMoreCommentRepliesStatus', fetchMoreCommentRepliesStatus))
+      ..add(DiagnosticsProperty('isMoreReplyCommentsFetchCompleted',
+          isMoreReplyCommentsFetchCompleted))
+      ..add(DiagnosticsProperty('explodeWatchResp', explodeWatchResp))
+      ..add(DiagnosticsProperty(
+          'fetchExplodeWatchInfoStatus', fetchExplodeWatchInfoStatus))
+      ..add(DiagnosticsProperty('fetchSubtitlesStatus', fetchSubtitlesStatus))
+      ..add(DiagnosticsProperty('subtitles', subtitles))
+      ..add(DiagnosticsProperty('liveStreamUrl', liveStreamUrl))
+      ..add(DiagnosticsProperty(
+          'fetchExplodeLiveStreamStatus', fetchExplodeLiveStreamStatus))
+      ..add(DiagnosticsProperty('relatedVideos', relatedVideos))
+      ..add(DiagnosticsProperty(
+          'fetchExplodedRelatedVideosStatus', fetchExplodedRelatedVideosStatus))
+      ..add(DiagnosticsProperty('muxedStreams', muxedStreams))
+      ..add(DiagnosticsProperty(
+          'fetchExplodeMuxedStreamsStatus', fetchExplodeMuxedStreamsStatus))
+      ..add(DiagnosticsProperty('invidiousWatchResp', invidiousWatchResp))
+      ..add(DiagnosticsProperty(
+          'fetchInvidiousWatchInfoStatus', fetchInvidiousWatchInfoStatus))
+      ..add(DiagnosticsProperty('invidiousComments', invidiousComments))
+      ..add(DiagnosticsProperty(
+          'fetchInvidiousCommentsStatus', fetchInvidiousCommentsStatus))
+      ..add(DiagnosticsProperty(
+          'invidiousCommentReplies', invidiousCommentReplies))
+      ..add(DiagnosticsProperty('fetchInvidiousCommentRepliesStatus',
+          fetchInvidiousCommentRepliesStatus))
+      ..add(DiagnosticsProperty(
+          'fetchMoreInvidiousCommentsStatus', fetchMoreInvidiousCommentsStatus))
+      ..add(DiagnosticsProperty('isMoreInvidiousCommentsFetchCompleted',
+          isMoreInvidiousCommentsFetchCompleted))
+      ..add(DiagnosticsProperty('fetchMoreInvidiousCommentRepliesStatus',
+          fetchMoreInvidiousCommentRepliesStatus))
+      ..add(DiagnosticsProperty('isMoreInvidiousReplyCommentsFetchCompleted',
+          isMoreInvidiousReplyCommentsFetchCompleted))
+      ..add(DiagnosticsProperty('newPipeWatchResp', newPipeWatchResp))
+      ..add(DiagnosticsProperty(
+          'fetchNewPipeWatchInfoStatus', fetchNewPipeWatchInfoStatus))
+      ..add(DiagnosticsProperty('newPipeErrorMessage', newPipeErrorMessage))
+      ..add(DiagnosticsProperty('newPipeComments', newPipeComments))
+      ..add(DiagnosticsProperty(
+          'fetchNewPipeCommentsStatus', fetchNewPipeCommentsStatus))
+      ..add(DiagnosticsProperty(
+          'fetchMoreNewPipeCommentsStatus', fetchMoreNewPipeCommentsStatus))
+      ..add(DiagnosticsProperty('isMoreNewPipeCommentsFetchCompleted',
+          isMoreNewPipeCommentsFetchCompleted))
+      ..add(DiagnosticsProperty('newPipeCommentReplies', newPipeCommentReplies))
+      ..add(DiagnosticsProperty(
+          'fetchNewPipeCommentRepliesStatus', fetchNewPipeCommentRepliesStatus))
+      ..add(DiagnosticsProperty('fetchMoreNewPipeCommentRepliesStatus',
+          fetchMoreNewPipeCommentRepliesStatus))
+      ..add(DiagnosticsProperty('isMoreNewPipeReplyCommentsFetchCompleted',
+          isMoreNewPipeReplyCommentsFetchCompleted))
+      ..add(DiagnosticsProperty('sponsorSegments', sponsorSegments))
+      ..add(DiagnosticsProperty(
+          'fetchSponsorSegmentsStatus', fetchSponsorSegmentsStatus));
   }
 
   @override
@@ -12347,6 +12752,8 @@ class _$InitialImpl implements _Initial {
                 other.comments == comments) &&
             (identical(other.commentReplies, commentReplies) ||
                 other.commentReplies == commentReplies) &&
+            (identical(other.pipedErrorMessage, pipedErrorMessage) ||
+                other.pipedErrorMessage == pipedErrorMessage) &&
             (identical(other.fetchWatchInfoStatus, fetchWatchInfoStatus) ||
                 other.fetchWatchInfoStatus == fetchWatchInfoStatus) &&
             (identical(other.fetchCommentsStatus, fetchCommentsStatus) ||
@@ -12421,6 +12828,7 @@ class _$InitialImpl implements _Initial {
         watchResp,
         comments,
         commentReplies,
+        pipedErrorMessage,
         fetchWatchInfoStatus,
         fetchCommentsStatus,
         fetchCommentRepliesStatus,
@@ -12484,6 +12892,7 @@ abstract class _Initial implements WatchState {
       required final WatchResp watchResp,
       required final CommentsResp comments,
       required final CommentsResp commentReplies,
+      final String? pipedErrorMessage,
       required final ApiStatus fetchWatchInfoStatus,
       required final ApiStatus fetchCommentsStatus,
       required final ApiStatus fetchCommentRepliesStatus,
@@ -12546,6 +12955,8 @@ abstract class _Initial implements WatchState {
   CommentsResp get comments;
   @override
   CommentsResp get commentReplies;
+  @override
+  String? get pipedErrorMessage;
   @override
   ApiStatus get fetchWatchInfoStatus;
   @override

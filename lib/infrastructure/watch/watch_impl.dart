@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -57,9 +58,16 @@ class WatchImpl implements WatchService {
         log('Rate limited on getVideoData');
         return const Left(MainFailure.rateLimited());
       } else {
-        log('Err on getVideoData: ${response.statusCode}');
+        // Try to extract error message from response body
+        String? errMsg;
+        try {
+          final body = jsonDecode(response.data);
+          errMsg = body['error'] as String?;
+        } catch (_) {}
+        log('Err on getVideoData: ${response.statusCode} ${errMsg ?? ''}');
         return Left(MainFailure.serverError(
-            statusCode: response.statusCode, message: 'Failed to load video'));
+            statusCode: response.statusCode,
+            message: errMsg ?? 'Failed to load video'));
       }
     } on DioException catch (e) {
       log('Err on getVideoData: $e');

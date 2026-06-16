@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:media_kit/media_kit.dart';
-import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/domain/watch/playback/models/generic_quality_info.dart';
 
 /// YouTube-style video player controls overlay.
@@ -16,6 +15,7 @@ class YouTubeControlsOverlay extends StatefulWidget {
     this.availableQualities,
     this.currentQuality,
     this.onQualityChanged,
+    required this.onBack,
     required this.onToggleFullscreen,
     required this.onSeek,
     required this.onShowQualitySheet,
@@ -28,6 +28,7 @@ class YouTubeControlsOverlay extends StatefulWidget {
   final List<GenericQualityInfo>? availableQualities;
   final String? currentQuality;
   final Function(GenericQualityInfo)? onQualityChanged;
+  final VoidCallback onBack;
   final VoidCallback onToggleFullscreen;
   final Function(Duration) onSeek;
   final VoidCallback onShowQualitySheet;
@@ -40,8 +41,6 @@ class _YouTubeControlsOverlayState extends State<YouTubeControlsOverlay> {
   Duration _position = Duration.zero;
   Duration _duration = Duration.zero;
   bool _isPlaying = false;
-  double _brightness = 1.0;
-  double _volume = 1.0;
   bool _isDraggingSeek = false;
 
   StreamSubscription<Duration>? _positionSub;
@@ -70,16 +69,6 @@ class _YouTubeControlsOverlayState extends State<YouTubeControlsOverlay> {
     super.dispose();
   }
 
-  String _formatDuration(Duration d) {
-    final hours = d.inHours;
-    final minutes = d.inMinutes.remainder(60);
-    final seconds = d.inSeconds.remainder(60);
-    if (hours > 0) {
-      return '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
-    }
-    return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
-  }
-
   void _togglePlayPause() {
     if (_isPlaying) {
       widget.player.pause();
@@ -101,7 +90,16 @@ class _YouTubeControlsOverlayState extends State<YouTubeControlsOverlay> {
     widget.onSeek(target);
     widget.player.seek(target);
   }
-
+  String _formatDuration(Duration d) {
+    if (d.isNegative) d = Duration.zero;
+    final hours = d.inHours;
+    final minutes = d.inMinutes.remainder(60);
+    final seconds = d.inSeconds.remainder(60);
+    if (hours > 0) {
+      return '$hours:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
+    }
+    return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
+  }
   Widget _buildTopBar() {
     return Positioned(
       top: 0,
@@ -110,9 +108,9 @@ class _YouTubeControlsOverlayState extends State<YouTubeControlsOverlay> {
       child: Container(
         padding: EdgeInsets.only(
           top: MediaQuery.of(context).padding.top + 8,
-          left: 8,
+          left: 4,
           right: 16,
-          bottom: 12,
+          bottom: 40,
         ),
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -125,69 +123,15 @@ class _YouTubeControlsOverlayState extends State<YouTubeControlsOverlay> {
           children: [
             IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.white, size: 24),
-              onPressed: widget.onToggleFullscreen,
+              onPressed: widget.onBack,
             ),
             const SizedBox(width: 8),
-            Expanded(child: const SizedBox()),
+            const Expanded(child: SizedBox()),
           ],
         ),
       ),
     );
   }
-
-  Widget _buildCenterControls() {
-    return Center(
-      child: GestureDetector(
-        onDoubleTapDown: (details) {
-          final width = context.size?.width ?? 1;
-          if (details.localPosition.dx < width / 2) {
-            // Left side: seek back 10s
-            final newPos = _position - const Duration(seconds: 10);
-            widget.onSeek(newPos);
-            widget.player.seek(newPos);
-          } else {
-            // Right side: seek forward 10s
-            final newPos = _position + const Duration(seconds: 10);
-            widget.onSeek(newPos);
-            widget.player.seek(newPos);
-          }
-        },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Seek back 10s
-            _ControlButton(
-              icon: Icons.replay_10_rounded,
-              onTap: () {
-                final newPos = _position - const Duration(seconds: 10);
-                widget.onSeek(newPos);
-                widget.player.seek(newPos);
-              },
-            ),
-            const SizedBox(width: 24),
-            // Play/Pause
-            _ControlButton(
-              icon: _isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
-              size: 56,
-              iconSize: 40,
-              onTap: _togglePlayPause,
-            ),
-            const SizedBox(width: 24),
-            // Seek forward 10s
-            _ControlButton(
-              icon: Icons.forward_10_rounded,
-              onTap: () {
-                final newPos = _position + const Duration(seconds: 10);
-                widget.onSeek(newPos);
-                widget.player.seek(newPos);
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _buildBottomBar() {
     final totalSeconds = _duration.inSeconds > 0
         ? _duration.inSeconds.toDouble()
@@ -203,7 +147,7 @@ class _YouTubeControlsOverlayState extends State<YouTubeControlsOverlay> {
           left: 16,
           right: 16,
           bottom: MediaQuery.of(context).padding.bottom + 8,
-          top: 8,
+          top: 40,
         ),
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -215,51 +159,89 @@ class _YouTubeControlsOverlayState extends State<YouTubeControlsOverlay> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // ── Seek Bar ──
+            // ── Seek Bar with time labels at ends (YouTube style) ──
             if (!widget.isLive)
-              SliderTheme(
-                data: SliderThemeData(
-                  trackHeight: 3,
-                  thumbShape:
-                      const RoundSliderThumbShape(enabledThumbRadius: 6),
-                  overlayShape:
-                      const RoundSliderOverlayShape(overlayRadius: 12),
-                  activeTrackColor: Colors.red,
-                  inactiveTrackColor: Colors.white38,
-                  thumbColor: Colors.red,
-                  overlayColor: Colors.red.withValues(alpha: 0.2),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 4),
+                child: Row(
+                  children: [
+                    Text(
+                      _formatDuration(_position),
+                      style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: SliderTheme(
+                        data: SliderThemeData(
+                          trackHeight: 3,
+                          thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 6),
+                          overlayShape: const RoundSliderOverlayShape(overlayRadius: 12),
+                          activeTrackColor: Colors.red,
+                          inactiveTrackColor: Colors.white38,
+                          thumbColor: Colors.red,
+                          overlayColor: Colors.red.withValues(alpha: 0.2),
+                        ),
+                        child: Slider(
+                          value: positionSeconds.clamp(0, totalSeconds),
+                          max: totalSeconds,
+                          onChanged: _onSeekChange,
+                          onChangeEnd: _onSeekEnd,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      _formatDuration(_duration),
+                      style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500),
+                    ),
+                  ],
                 ),
-                child: Slider(
-                  value: positionSeconds.clamp(0, totalSeconds),
-                  max: totalSeconds,
-                  onChanged: _onSeekChange,
-                  onChangeEnd: _onSeekEnd,
+              )
+            else
+              // Live indicator
+              Padding(
+                padding: const EdgeInsets.only(bottom: 4),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 8,
+                      height: 8,
+                      decoration: const BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                    const Text(
+                      'LIVE',
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const Spacer(),
+                    Text(
+                      _formatDuration(_position),
+                      style: const TextStyle(color: Colors.white, fontSize: 12),
+                    ),
+                  ],
                 ),
               ),
 
-            // ── Time Row ──
+            // ── Bottom Action Row ──
             Row(
               children: [
-                Text(
-                  _formatDuration(_position),
-                  style: const TextStyle(color: Colors.white, fontSize: 12),
-                ),
-                if (!widget.isLive) ...[
-                  Text(
-                    ' / ${_formatDuration(_duration)}',
-                    style: const TextStyle(color: Colors.white54, fontSize: 12),
-                  ),
-                ],
                 const Spacer(),
 
-                // Quality button
+                // Quality / Settings button
                 if (_hasQualities)
                   _BottomIconButton(
                     icon: Icons.settings_rounded,
-                    label: widget.currentQuality ?? 'Auto',
+                    label: '${widget.currentQuality ?? 'Auto'}p',
                     onTap: widget.onShowQualitySheet,
                   ),
-                const SizedBox(width: 8),
+                const SizedBox(width: 4),
 
                 // Fullscreen toggle
                 IconButton(
@@ -280,21 +262,67 @@ class _YouTubeControlsOverlayState extends State<YouTubeControlsOverlay> {
     );
   }
 
+  Widget _buildCenterControls() {
+    return Center(
+      child: GestureDetector(
+        onDoubleTapDown: (details) {
+          final width = context.size?.width ?? 1;
+          if (details.localPosition.dx < width / 2) {
+            final newPos = _position - const Duration(seconds: 10);
+            widget.onSeek(newPos);
+            widget.player.seek(newPos);
+          } else {
+            final newPos = _position + const Duration(seconds: 10);
+            widget.onSeek(newPos);
+            widget.player.seek(newPos);
+          }
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _ControlButton(
+              icon: Icons.replay_10_rounded,
+              onTap: () {
+                final newPos = _position - const Duration(seconds: 10);
+                widget.onSeek(newPos);
+                widget.player.seek(newPos);
+              },
+            ),
+            const SizedBox(width: 24),
+            _ControlButton(
+              icon: _isPlaying ? Icons.pause_rounded : Icons.play_arrow_rounded,
+              size: 56,
+              iconSize: 40,
+              onTap: _togglePlayPause,
+            ),
+            const SizedBox(width: 24),
+            _ControlButton(
+              icon: Icons.forward_10_rounded,
+              onTap: () {
+                final newPos = _position + const Duration(seconds: 10);
+                widget.onSeek(newPos);
+                widget.player.seek(newPos);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
   bool get _hasQualities =>
-      widget.availableQualities != null && widget.availableQualities!.length > 1;
-
+      widget.availableQualities != null && widget.availableQualities!.isNotEmpty;
   @override
   Widget build(BuildContext context) {
     return Stack(
       fit: StackFit.expand,
       children: [
-        // Semi-transparent background for controls
+        // Semi-transparent background for controls (gradient-like)
         GestureDetector(
-          onTap: () {},
+          onTap: _toggleControlsVisibility,
           child: Container(color: Colors.black12),
         ),
 
-        // Top bar
+        // Top bar (landscape only)
         if (widget.isLandscape) _buildTopBar(),
 
         // Center controls
@@ -304,6 +332,10 @@ class _YouTubeControlsOverlayState extends State<YouTubeControlsOverlay> {
         _buildBottomBar(),
       ],
     );
+  }
+
+  void _toggleControlsVisibility() {
+    // Toggle handled by parent widget's GestureDetector
   }
 }
 

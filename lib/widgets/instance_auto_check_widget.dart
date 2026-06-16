@@ -338,11 +338,13 @@ class _InstanceAutoCheckWidgetState extends State<InstanceAutoCheckWidget> {
       return 'Paid Video';
     } else if (msg.contains('member') || msg.contains('membership')) {
       return 'Members Only';
-    } else if (msg.contains('age') || msg.contains('sign in')) {
+    } else if (msg.contains('bot') || msg.contains('sign in')) {
+      return 'Sign In Required';
+    } else if (msg.contains('age')) {
       return 'Age Restricted';
     } else if (msg.contains('private')) {
       return 'Private Video';
-    } else if (msg.contains('unavailable') || msg.contains('not available')) {
+    } else if (msg.contains('unavailable') || msg.contains('not found')) {
       return 'Video Unavailable';
     } else if (msg.contains('live') || msg.contains('premiere')) {
       return 'Not Yet Available';
@@ -356,10 +358,14 @@ class _InstanceAutoCheckWidgetState extends State<InstanceAutoCheckWidget> {
       return 'This video requires purchase to watch';
     } else if (msg.contains('member') || msg.contains('membership')) {
       return 'This video is only available for channel members';
-    } else if (msg.contains('age') || msg.contains('sign in')) {
+    } else if (msg.contains('bot') && msg.contains('sign in')) {
+      return 'YouTube is blocking this video. Try again later or use a different network.';
+    } else if (msg.contains('sign in')) {
       return 'This video is age-restricted and cannot be played';
     } else if (msg.contains('private')) {
       return 'This video is private';
+    } else if (msg.contains('not found')) {
+      return 'This video could not be found on the server';
     } else if (msg.contains('live') || msg.contains('premiere')) {
       return 'This video has not started yet';
     }

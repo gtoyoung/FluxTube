@@ -1,7 +1,7 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluxtube/application/application.dart';
+import 'package:fluxtube/core/colors.dart';
 import 'package:fluxtube/core/enums.dart';
 import 'package:fluxtube/core/platform/fullscreen_utils.dart';
 import 'package:fluxtube/core/player/global_player_controller.dart';
@@ -35,8 +35,10 @@ class YouTubeWatchScreen extends StatefulWidget {
 class _YouTubeWatchScreenState extends State<YouTubeWatchScreen>
     with WidgetsBindingObserver {
   final GlobalPlayerController _playerController = GlobalPlayerController();
-  bool _isInFullscreen = false;
-  bool _isExitingFullscreen = false;
+
+  bool _showPlayer = false;
+  String? _playerVideoId;
+
   @override
   void initState() {
     super.initState();
@@ -63,37 +65,15 @@ class _YouTubeWatchScreenState extends State<YouTubeWatchScreen>
   void didUpdateWidget(covariant YouTubeWatchScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.id != widget.id) {
+      _showPlayer = false;
       WidgetsBinding.instance.addPostFrameCallback((_) => _initializeVideo());
     }
   }
 
-  Future<void> _handleBackFromFullscreen() async {
-    if (_isExitingFullscreen) return;
-    _isExitingFullscreen = true;
-    try {
-      await FullscreenUtils.exitFullscreen();
-      if (!mounted) return;
-      if (mounted) {
-        setState(() => _isInFullscreen = false);
-      }
-      // Use pop() not maybePop() — PopScope's canPop is still false until
-      // the next frame, so maybePop would silently fail.
-      Navigator.of(context).pop();
-    } finally {
-      _isExitingFullscreen = false;
-    }
-  }
-
-  void _exitFullscreenAndPop() => unawaited(_handleBackFromFullscreen());
-
   void _initializeVideo() {
     final bloc = BlocProvider.of<WatchBloc>(context);
-    if (bloc.state.oldId != widget.id) {
-      // Always fetch when navigating to a new video
-      bloc.add(WatchEvent.getWatchInfo(id: widget.id));
-    } else if (bloc.state.fetchWatchInfoStatus != ApiStatus.loaded ||
+    if (bloc.state.fetchWatchInfoStatus != ApiStatus.loaded ||
         bloc.state.watchResp.title == null) {
-      // Re-fetch if the current one hasn't loaded yet
       bloc.add(WatchEvent.getWatchInfo(id: widget.id));
     }
   }
@@ -118,79 +98,60 @@ class _YouTubeWatchScreenState extends State<YouTubeWatchScreen>
   @override
   Widget build(BuildContext context) {
     final locals = S.of(context);
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
 
-    return OrientationBuilder(
-      builder: (context, orientation) {
-        final isLandscape = orientation == Orientation.landscape;
-
-        // Auto fullscreen on landscape
-        if (isLandscape &&
-            !_isInFullscreen &&
-            !_isExitingFullscreen) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (mounted) {
-              FullscreenUtils.enterFullscreen();
-              setState(() => _isInFullscreen = true);
-            }
-          });
-        } else if (!isLandscape && _isInFullscreen) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (mounted) {
-              FullscreenUtils.exitFullscreen();
-              setState(() => _isInFullscreen = false);
-            }
-          });
-        }
-
-        return BlocListener<WatchBloc, WatchState>(
-          listenWhen: (previous, current) =>
-              previous.fetchWatchInfoStatus != current.fetchWatchInfoStatus &&
-              current.fetchWatchInfoStatus == ApiStatus.loaded,
-          listener: (context, state) {
-            final watchInfo = state.watchResp;
-            if (watchInfo.title != null && watchInfo.title!.isNotEmpty) {
-              BlocProvider.of<WatchBloc>(context).add(
-                WatchEvent.setSelectedVideoBasicDetails(
-                  details: VideoBasicInfo(
-                    id: widget.id,
-                    title: watchInfo.title,
-                    thumbnailUrl: watchInfo.thumbnailUrl,
-                    channelName: watchInfo.uploader,
-                    channelId: watchInfo.uploaderUrl?.split('/').last,
-                    uploaderVerified: watchInfo.uploaderVerified,
-                  ),
-                ),
-              );
-              PlaybackQueueController.instance.setQueue(
-                currentVideoId: widget.id,
-                videos: (watchInfo.relatedStreams ?? []).map((related) {
-                  return VideoBasicInfo(
-                    id: _videoIdFromUrl(related.url),
-                    title: related.title,
-                    thumbnailUrl: related.thumbnail,
-                    channelName: related.uploaderName,
-                    channelId: _channelIdFromUrl(related.uploaderUrl),
-                    channelThumbnailUrl: related.uploaderAvatar,
-                    uploaderVerified: related.uploaderVerified,
-                  );
-                }).toList(),
-              );
-            }
-          },
-          child: PopScope(
-            canPop: !_isInFullscreen,
-            onPopInvokedWithResult: (didPop, _) {
-              if (!didPop && _isInFullscreen) {
-                _exitFullscreenAndPop();
-              }
-            },
-            child: Scaffold(
-              backgroundColor: Colors.black,
-              body: _buildBody(locals, isLandscape),
+    return BlocListener<WatchBloc, WatchState>(
+      listenWhen: (previous, current) =>
+          previous.fetchWatchInfoStatus != current.fetchWatchInfoStatus &&
+          current.fetchWatchInfoStatus == ApiStatus.loaded,
+      listener: (context, state) {
+        final watchInfo = state.watchResp;
+        if (watchInfo.title != null && watchInfo.title!.isNotEmpty) {
+          BlocProvider.of<WatchBloc>(context).add(
+            WatchEvent.setSelectedVideoBasicDetails(
+              details: VideoBasicInfo(
+                id: widget.id,
+                title: watchInfo.title,
+                thumbnailUrl: watchInfo.thumbnailUrl,
+                channelName: watchInfo.uploader,
+                channelId: watchInfo.uploaderUrl?.split('/').last,
+                uploaderVerified: watchInfo.uploaderVerified,
+              ),
             ),
-          ),
-        );
+          );
+          PlaybackQueueController.instance.setQueue(
+            currentVideoId: widget.id,
+            videos: (watchInfo.relatedStreams ?? []).map((related) {
+              return VideoBasicInfo(
+                id: _videoIdFromUrl(related.url),
+                title: related.title,
+                thumbnailUrl: related.thumbnail,
+                channelName: related.uploaderName,
+                channelId: _channelIdFromUrl(related.uploaderUrl),
+                channelThumbnailUrl: related.uploaderAvatar,
+                uploaderVerified: related.uploaderVerified,
+              );
+            }).toList(),
+          );
+        }
       },
+      child: PopScope(
+        canPop: !isLandscape,
+        onPopInvokedWithResult: (didPop, _) {
+          if (isLandscape) {
+            FullscreenUtils.exitFullscreen();
+          } else if (!didPop) {
+            if (Navigator.of(context).canPop()) {
+              Navigator.of(context).pop();
+            }
+          }
+        },
+        child: Scaffold(
+          backgroundColor: isLandscape ? kBlackColor : null,
+          body: _buildBody(locals, isLandscape),
+        ),
+      ),
     );
   }
 
@@ -207,19 +168,8 @@ class _YouTubeWatchScreenState extends State<YouTubeWatchScreen>
           previous.fetchWatchInfoStatus != current.fetchWatchInfoStatus ||
           previous.watchResp != current.watchResp,
       builder: (context, state) {
-        if (state.fetchWatchInfoStatus == ApiStatus.error) {
-          return SafeArea(
-            child: SingleChildScrollView(
-              child: InstanceAutoCheckWidget(
-                videoId: widget.id,
-                lottie: 'assets/cat-404.zip',
-                errorMessage: state.pipedErrorMessage,
-                onRetry: () => BlocProvider.of<WatchBloc>(context)
-                    .add(WatchEvent.getWatchInfo(id: widget.id)),
-              ),
-            ),
-          );
-        }
+        final isLoading = state.fetchWatchInfoStatus == ApiStatus.initial ||
+            state.fetchWatchInfoStatus == ApiStatus.loading;
 
         return YouTubePlayerWidget(
           key: ValueKey('player_${widget.id}'),
@@ -242,6 +192,7 @@ class _YouTubeWatchScreenState extends State<YouTubeWatchScreen>
           previous.subtitles != current.subtitles ||
           previous.sponsorSegments != current.sponsorSegments,
       builder: (context, state) {
+        final watchInfo = state.watchResp;
         final isLoading = state.fetchWatchInfoStatus == ApiStatus.initial ||
             state.fetchWatchInfoStatus == ApiStatus.loading;
         final hasError = state.fetchWatchInfoStatus == ApiStatus.error;
@@ -252,7 +203,6 @@ class _YouTubeWatchScreenState extends State<YouTubeWatchScreen>
               child: InstanceAutoCheckWidget(
                 videoId: widget.id,
                 lottie: 'assets/cat-404.zip',
-                errorMessage: state.pipedErrorMessage,
                 onRetry: () => BlocProvider.of<WatchBloc>(context)
                     .add(WatchEvent.getWatchInfo(id: widget.id)),
               ),
@@ -277,17 +227,23 @@ class _YouTubeWatchScreenState extends State<YouTubeWatchScreen>
                   ),
                 ),
 
-                // ── Video Info (Title / Channel / Actions / Description) ──
-                YouTubeVideoInfoSection(
-                  watchState: state,
-                  isLoading: isLoading,
-                  videoId: widget.id,
+                // ── Video Info ──
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: YouTubeVideoInfoSection(
+                    watchState: state,
+                    isLoading: isLoading,
+                    videoId: widget.id,
+                  ),
                 ),
 
-                const Divider(height: 1, color: Colors.white12),
+                const Divider(height: 1),
 
-                // ── Comments or Related Videos ──
-                _buildCommentsOrRelated(state, locals),
+                // ── Description or Comments / Related ──
+                state.isDescriptionTapped
+                    ? _buildDescription(state, watchInfo, locals)
+                    : _buildRelatedOrComments(state, watchInfo, locals),
               ],
             ),
           ),
@@ -295,8 +251,22 @@ class _YouTubeWatchScreenState extends State<YouTubeWatchScreen>
       },
     );
   }
-  Widget _buildCommentsOrRelated(
-      WatchState state, S locals) {
+
+  Widget _buildDescription(
+      WatchState state, dynamic watchInfo, S locals) {
+    // Reuse existing DescriptionSection from current codebase
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: DescriptionSection(
+        height: MediaQuery.of(context).size.height,
+        watchInfo: watchInfo,
+        locals: locals,
+      ),
+    );
+  }
+
+  Widget _buildRelatedOrComments(
+      WatchState state, dynamic watchInfo, S locals) {
     if (state.isTapComments) {
       return CommentSection(
         videoId: widget.id,
@@ -311,9 +281,16 @@ class _YouTubeWatchScreenState extends State<YouTubeWatchScreen>
       padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
       child: RelatedVideoSection(
         locals: locals,
-        watchInfo: state.watchResp,
+        watchInfo: watchInfo,
       ),
     );
   }
 }
 
+// Minimal stubs for sections that exist elsewhere but may not be
+// imported from the barrel file. We import from sections.dart above.
+
+// The actual implementations are in:
+// - lib/presentation/watch/widgets/sections/description_section.dart
+// - lib/presentation/watch/widgets/sections/comment_section.dart
+// - lib/presentation/watch/widgets/sections/related_video_section.dart
